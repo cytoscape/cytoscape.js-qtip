@@ -1,7 +1,7 @@
 cytoscape.js-qtip
 =================
 
-![Preview](TODO URL)
+![Preview](https://raw.githubusercontent.com/cytoscape/cytoscape.js-qtip/master/img/preview.png)
 
 
 ## Description
