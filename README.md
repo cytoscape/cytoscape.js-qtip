@@ -19,7 +19,7 @@ A Cytoscape.js extension that wraps the [qTip jQuery library](http://qtip2.com)
 
 ## API
 
-This plugin wraps the qTip API so it can be used on Cytoscape.js graph elements instead of HTML DOM elements.
+This extension wraps the qTip API so it can be used on Cytoscape.js graph elements instead of HTML DOM elements.
 
 You can call qTip on graph elements:
 ```js
@@ -40,4 +40,4 @@ These are additional options you can use for convenience.  Remember: This extens
 
  * `options.position.adjust.cyViewport` : When `true`, updates element qTip position on zoom and pan.  Note you'll need your own mechanism to hide out-of-bounds qTips, such as customising the parent container.
 
-  * `options.show.cyBgOnly` : When `true`, shows core qTips only for events originated on the core (not bubbled).
+ * `options.show.cyBgOnly` : When `true`, shows core qTips only for events originated on the core (not bubbled).
