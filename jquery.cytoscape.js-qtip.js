@@ -99,6 +99,10 @@
         qtipApi.show();
       } );
 
+      ele.on( opts.hide.event, function(e){
+        qtipApi.hide();
+      } );
+
       if( opts.position.adjust.cyViewport ){
         cy.on('pan zoom', function(e){
           updatePosition(e);
@@ -150,6 +154,12 @@
         updatePosition(e);
 
         qtipApi.show();
+      }
+    } );
+
+    cy.on( opts.hide.event, function(e){
+      if( !opts.hide.cyBgOnly || (opts.hide.cyBgOnly && e.cyTarget === cy) ){
+        qtipApi.hide();
       }
     } );
 

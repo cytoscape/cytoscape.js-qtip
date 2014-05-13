@@ -41,3 +41,5 @@ These are additional options you can use for convenience.  Remember: This extens
  * `options.position.adjust.cyViewport` : When `true`, updates element qTip position on zoom and pan.  Note you'll need your own mechanism to hide out-of-bounds qTips, such as customising the parent container.
 
  * `options.show.cyBgOnly` : When `true`, shows core qTips only for events originated on the core (not bubbled).  Useful for "background" events.
+
+ * `options.hide.cyBgOnly` : When `true`, hides core qTips only for events originated on the core (not bubbled).  Useful for "background" events.
