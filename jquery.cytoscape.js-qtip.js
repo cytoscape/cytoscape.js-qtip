@@ -92,6 +92,7 @@
           top: cOff.top + pos.y + window.scrollY - h/2
         });
       };
+      updatePosition();
 
       ele.on( opts.show.event, function(e){
         updatePosition(e);
