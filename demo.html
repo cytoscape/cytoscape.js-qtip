@@ -35,7 +35,7 @@
 
 						// just use the regular qtip api but on cy elements
 						cy.elements().qtip({
-							content: 'Example qTip on ele',
+							content: function(){ return 'Example qTip on ele ' + this.id() },
 							position: {
 								my: 'top center',
 								at: 'bottom center'
