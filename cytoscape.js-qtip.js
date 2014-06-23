@@ -106,8 +106,8 @@
           zIndex: '-1',
           width:  w  + 'px',
           height: h + 'px',
-          left: cOff.left + pos.x + window.scrollX - w/2,
-          top: cOff.top + pos.y + window.scrollY - h/2
+          left: cOff.left + pos.x + window.pageXOffset - w/2,
+          top: cOff.top + pos.y + window.pageYOffset - h/2
         });
       };
       updatePosition();
@@ -163,8 +163,8 @@
       qtip.$domEle.css({
         position: 'absolute',
         zIndex: '-1',
-        left: cOff.left + pos.x + window.scrollX,
-        top: cOff.top + pos.y + window.scrollY
+        left: cOff.left + pos.x + window.pageXOffset,
+        top: cOff.top + pos.y + window.pageYOffset
       });
     };
 
