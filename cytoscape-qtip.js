@@ -1,29 +1,32 @@
 ;(function( $, $$ ){
   
+  // use a single dummy dom ele as target for every qtip
+  var $qtipContainer = $('<div></div>');
+  var viewportDebounceRate = 250;
+
   function generateOpts( target, passedOpts ){
     var qtip = target.scratch().qtip;
     var opts = $.extend( {}, passedOpts );
+    var cy = target.cy ? target.cy() : target;
 
     if( !opts.id ){
-      opts.id = 'cy-qtip-target-' + ( +new Date() );
+      opts.id = 'cy-qtip-target-' + ( Date.now() + Math.round( Math.random() * 10000) );
     }
 
     if( !qtip.$domEle ){
-      qtip.$domEle = $('<div id="' + opts.id + '"></div>');
-
-      var parent = passedOpts && passedOpts.position && passedOpts.position.container ? passedOpts.position.container : document.body;
-
-      $(parent).append( qtip.$domEle );
+      qtip.$domEle = $qtipContainer;
     }
 
     // qtip should be positioned relative to cy dom container
     opts.position = opts.position || {};
+    opts.position.container = opts.position.container || $( document.body );
+    opts.position.viewport = opts.position.viewport || $( document.body );
+    opts.position.target = [0, 0];
 
+    // adjust
     opts.position.adjust = opts.position.adjust || {};
-
-    if( opts.position.adjust.mouse === undefined ){
-      opts.position.adjust.mouse = false;
-    }
+    opts.position.adjust.method = opts.position.adjust.method || 'flip';
+    opts.position.adjust.mouse = false;
 
     // default show event
     opts.show = opts.show || {};
@@ -34,10 +37,14 @@
 
     // default hide event
     opts.hide = opts.hide || {};
+    opts.hide.cyViewport = opts.hide.cyViewport === undefined ? true : opts.hide.cyViewport;
 
     if( !opts.hide.event ){
       opts.hide.event = 'unfocus';
     }
+
+    // so multiple qtips can exist at once (only works on recent qtip2 versions)
+    opts.overwrite = false;
 
     var content;
     if( opts.content ){
@@ -57,30 +64,14 @@
     return opts;
   }
 
-  function tryQtipApi( ele, passedOpts, args ){
-    // call qtip api function
-    if( $$.is.string( passedOpts ) ){
-      var ele = eles[0];
-      var qtip = ele.scratch().qtip;
-
-      if( ele && qtip ){
-        return qtip.$domEle.qtip.apply( qtip.$domEle, arguments );
-      }
-    }
-
-    throw 'Could not run qtip api';
-  }
-
   $$('collection', 'qtip', function( passedOpts ){
     var args = arguments;
     var eles = this;
     var cy = this.cy();
     var container = cy.container();
 
-    try {
-     return tryQtipApi( ele, passedOpts, args );
-    } catch( err ){
-      // just continue
+    if( passedOpts === 'api' ){
+      return this.scratch().qtip.api;
     }
 
     eles.each(function(i, ele){
@@ -89,26 +80,17 @@
       var opts = generateOpts( ele, passedOpts );
 
 
-      // call qtip on dummy dom ele      
       qtip.$domEle.qtip( opts );
-      var qtipApi = qtip.$domEle.qtip('api');
+      var qtipApi = qtip.api = qtip.$domEle.qtip('api'); // save api ref
+      qtip.$domEle.removeData('qtip'); // remove qtip dom/api ref to be safe
 
       var updatePosition = function(e){
-        var pos = ele.renderedPosition() || ( e ? e.cyRenderedPosition : undefined );
-        if( !pos || pos.x == null ){ return; }
-
         var cOff = container.getBoundingClientRect();
-        var w = ele.isNode() ? ele.renderedWidth() : 0;
-        var h = ele.isNode() ? ele.renderedHeight() : 0;
+        var pos = ele.renderedPosition() || ( e ? e.cyRenderedPosition : undefined );
+        if( !pos || pos.x == null || isNaN(pos.x) ){ return; }
 
-        qtip.$domEle.css({
-          position: 'absolute',
-          zIndex: '-1',
-          width:  w  + 'px',
-          height: h + 'px',
-          left: cOff.left + pos.x + window.pageXOffset - w/2,
-          top: cOff.top + pos.y + window.pageYOffset - h/2
-        });
+        qtipApi.set('position.adjust.x', cOff.left + pos.x + window.pageXOffset);
+        qtipApi.set('position.adjust.y', cOff.top + pos.y + window.pageYOffset);
       };
       updatePosition();
 
@@ -122,12 +104,18 @@
         qtipApi.hide();
       } );
 
+      if( opts.hide.cyViewport ){
+        cy.on('viewport', $$.util.debounce(function(){
+          qtipApi.hide();
+        }, viewportDebounceRate, { leading: true }) );
+      }
+
       if( opts.position.adjust.cyViewport ){
-        cy.on('pan zoom', function(e){
+        cy.on('pan zoom', $$.util.debounce(function(e){
           updatePosition(e);
 
           qtipApi.reposition();
-        });
+        }, viewportDebounceRate, { trailing: true }) );
       }
 
     });
@@ -141,31 +129,26 @@
     var cy = this;
     var container = cy.container();
 
-    try {
-     return tryQtipApi( cy, passedOpts, args );
-    } catch( err ){
-      // just continue
+    if( passedOpts === 'api' ){
+      return this.scratch().qtip.api;
     }
 
     var scratch = cy.scratch();
     var qtip = scratch.qtip = scratch.qtip || {};
     var opts = generateOpts( cy, passedOpts );
 
-
-    // call qtip on dummy dom ele      
+ 
     qtip.$domEle.qtip( opts );
-    var qtipApi = qtip.$domEle.qtip('api');
+    var qtipApi = qtip.api = qtip.$domEle.qtip('api'); // save api ref
+    qtip.$domEle.removeData('qtip'); // remove qtip dom/api ref to be safe
 
     var updatePosition = function(e){
-      var pos = e.cyRenderedPosition;
       var cOff = container.getBoundingClientRect();
+      var pos = e.cyRenderedPosition;
+      if( !pos || pos.x == null || isNaN(pos.x) ){ return; }
 
-      qtip.$domEle.css({
-        position: 'absolute',
-        zIndex: '-1',
-        left: cOff.left + pos.x + window.pageXOffset,
-        top: cOff.top + pos.y + window.pageYOffset
-      });
+      qtipApi.set('position.adjust.x', cOff.left + pos.x + window.pageXOffset);
+      qtipApi.set('position.adjust.y', cOff.top + pos.y + window.pageYOffset);
     };
 
     cy.on( opts.show.event, function(e){
@@ -181,6 +164,12 @@
         qtipApi.hide();
       }
     } );
+
+    if( opts.hide.cyViewport ){
+      cy.on('viewport', $$.util.debounce(function(){
+        qtipApi.hide();
+      }, viewportDebounceRate, { leading: true }) );
+    }
 
     return this; // chainability
     
