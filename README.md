@@ -57,3 +57,9 @@ These are additional options you can use for convenience.  Remember: This extens
  * `options.hide.cyBgOnly` : When `true`, hides core qTips only for events originated on the core (not bubbled).  Useful for "background" events.
 
  * `options.hide.cyViewport` : When `true`, hides qTips when the viewport is manipulated (i.e. zoom/pan).
+
+
+## Publishing instructions
+
+1. Set the version number env var: `export VERSION=1.2.3`
+1. Publish: `gulp`
