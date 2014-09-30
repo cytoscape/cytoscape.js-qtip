@@ -1,11 +1,19 @@
 ;(function( $, $$ ){ 'use strict';
   
   if( !$ ){
-    $ = require('jquery');
+    try {
+      $ = require('jquery');
+    } catch(e){
+      console.error('Cytoscape extension tried to pull in `jquery` via require() but failed');
+    }
   }
 
   if( !$$ ){
-    $$ = require('cytoscape');
+    try {
+      $$ = require('cytoscape');
+    } catch(e){
+      console.error('Cytoscape extension tried to pull in `cytoscape` via require() but failed');
+    }
   }
 
   // use a single dummy dom ele as target for every qtip

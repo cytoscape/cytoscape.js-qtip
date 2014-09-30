@@ -70,7 +70,7 @@ gulp.task('tag', shell.task([
 ]));
 
 gulp.task('npm', shell.task([
-  'echo npm publish .'
+  'npm publish .'
 ]));
 
 // http://www.jshint.com/docs/options/
