@@ -1,5 +1,5 @@
-cytoscape.js-qtip
-=================
+cytoscape-qtip
+==============
 
 ![Preview](https://raw.githubusercontent.com/cytoscape/cytoscape.js-qtip/master/img/preview.png)
 

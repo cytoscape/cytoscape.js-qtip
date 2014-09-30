@@ -1,5 +1,13 @@
-;(function( $, $$ ){
+;(function( $, $$ ){ 'use strict';
   
+  if( !$ ){
+    $ = require('jquery');
+  }
+
+  if( !$$ ){
+    $$ = require('cytoscape');
+  }
+
   // use a single dummy dom ele as target for every qtip
   var $qtipContainer = $('<div></div>');
   var viewportDebounceRate = 250;
@@ -7,7 +15,6 @@
   function generateOpts( target, passedOpts ){
     var qtip = target.scratch().qtip;
     var opts = $.extend( {}, passedOpts );
-    var cy = target.cy ? target.cy() : target;
 
     if( !opts.id ){
       opts.id = 'cy-qtip-target-' + ( Date.now() + Math.round( Math.random() * 10000) );
@@ -65,7 +72,6 @@
   }
 
   $$('collection', 'qtip', function( passedOpts ){
-    var args = arguments;
     var eles = this;
     var cy = this.cy();
     var container = cy.container();
@@ -125,7 +131,6 @@
   });
 
   $$('core', 'qtip', function( passedOpts ){
-    var args = arguments;
     var cy = this;
     var container = cy.container();
 

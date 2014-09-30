@@ -1,0 +1,26 @@
+{
+  "name": "cytoscape-qtip",
+  "version": "2.0.0beta1",
+  "main": "cytoscape-qtip.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cytoscape/cytoscape.js-qtip.git"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "keywords": [
+    "cytoscape",
+    "cytoscape.js",
+    "cytoscapejs",
+    "qtip",
+    "extension",
+    "popup",
+    "tooltip"
+  ],
+  "license": "LGPL-3.0+"
+}
