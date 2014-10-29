@@ -17,6 +17,36 @@ A Cytoscape.js extension that wraps the [qTip jQuery library](http://qtip2.com)
  * Cytoscape.js >=2.2.0
 
 
+## Usage instructions
+
+Download the library:
+ * via npm: `npm install cytoscape-qtip`,
+ * via bower: `bower install cytoscape-qtip`, or
+ * via direct download in the repository (probably from a tag).
+
+`require()` the library as appropriate for your project:
+
+CommonJS:
+```js
+var cytoscape = require('cytoscape');
+var jquery = require('jquery');
+var cyqtip = require('cytoscape-qtip');
+
+cyqtip( cytoscape, jquery ); // register extension
+```
+
+AMD:
+```js
+require(['cytoscape', 'cytoscape-qtip', 'jquery'], function( cytoscape, cyqtip, jquery ){
+  cyqtip( cytoscape, jquery ); // register extension
+});
+```
+
+Note that `jquery` must point to a jQuery object with `.qtip()` registered if any sort of `require()` is used.
+
+Plain HTML/JS has the extension registered for you automatically, because no `require()` is needed.
+
+
 ## API
 
 This extension wraps the qTip API so it can be used on Cytoscape.js graph elements instead of HTML DOM elements.

@@ -12,12 +12,11 @@
   },
   "keywords": [
     "cytoscape",
-    "cytoscape.js",
-    "cytoscapejs",
     "qtip",
     "extension",
     "popup",
-    "tooltip"
+    "tooltip",
+    "cyext"
   ],
   "license": "LGPL-3.0+",
   "bugs": {
