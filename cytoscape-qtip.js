@@ -25,9 +25,13 @@
       opts.position.target = [0, 0];
 
       // adjust
-      opts.position.adjust = opts.position.adjust || {};
-      opts.position.adjust.method = opts.position.adjust.method || 'flip';
-      opts.position.adjust.mouse = false;
+      var adjust = opts.position.adjust = opts.position.adjust || {};
+      adjust.method = adjust.method || 'flip';
+      adjust.mouse = false;
+
+      if( adjust.cyAdjustToEleBB === undefined ){
+        adjust.cyAdjustToEleBB = true;
+      }
 
       // default show event
       opts.show = opts.show || {};
@@ -78,6 +82,7 @@
         var scratch = ele.scratch();
         var qtip = scratch.qtip = scratch.qtip || {};
         var opts = generateOpts( ele, passedOpts );
+        var adjNums = opts.position.adjust;
 
 
         qtip.$domEle.qtip( opts );
@@ -88,6 +93,34 @@
           var cOff = container.getBoundingClientRect();
           var pos = ele.renderedPosition() || ( e ? e.cyRenderedPosition : undefined );
           if( !pos || pos.x == null || isNaN(pos.x) ){ return; }
+
+          if( opts.position.adjust.cyAdjustToEleBB && ele.isNode() ){
+            var my = opts.position.my.toLowerCase();
+            var at = opts.position.at.toLowerCase();
+            var z = cy.zoom();
+            var w = ele.outerWidth() * z;
+            var h = ele.outerHeight() * z;
+
+            if( at.match('top') ){
+              pos.y -= h/2;
+            } else if( at.match('bottom') ){
+              pos.y += h/2;
+            }
+
+            if( at.match('left') ){
+              pos.x -= w/2;
+            } else if( at.match('right') ){
+              pos.x += w/2;
+            }
+
+            if( $$.is.number(adjNums.x) ){
+              pos.x += adjNums.x;
+            }
+
+            if( $$.is.number(adjNums.y) ){
+              pos.y += adjNums.y;
+            }
+          }
 
           qtipApi.set('position.adjust.x', cOff.left + pos.x + window.pageXOffset);
           qtipApi.set('position.adjust.y', cOff.top + pos.y + window.pageYOffset);
