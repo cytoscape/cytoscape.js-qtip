@@ -1,7 +1,7 @@
-;(function( $, $$ ){ 'use strict';
+;(function( $ ){ 'use strict';
 
   function register( $$, $ ){
-
+    if( !cytoscape ){ return; } // can't register if cytoscape unspecified
     // use a single dummy dom ele as target for every qtip
     var $qtipContainer = $('<div></div>');
     var viewportDebounceRate = 250;
@@ -219,8 +219,8 @@
     });
   }
 
-  if( $ && $$ ){
-    register( $$, $ );
+  if( typeof cytoscape !== 'undefined' ){ // expose to global cytoscape (i.e. window.cytoscape)
+    register( cytoscape, $ );
   }
   
-})( jQuery, cytoscape );
+})( jQuery );
