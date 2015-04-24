@@ -23,6 +23,8 @@
       opts.position.container = opts.position.container || $( document.body );
       opts.position.viewport = opts.position.viewport || $( document.body );
       opts.position.target = [0, 0];
+      opts.position.my = opts.position.my || 'top center';
+      opts.position.at = opts.position.at || 'bottom center';
 
       // adjust
       var adjust = opts.position.adjust = opts.position.adjust || {};
@@ -154,7 +156,7 @@
       });
 
       return this; // chainability
-      
+
     });
 
     $$('core', 'qtip', function( passedOpts ){
@@ -169,7 +171,7 @@
       var qtip = scratch.qtip = scratch.qtip || {};
       var opts = generateOpts( cy, passedOpts );
 
-   
+
       qtip.$domEle.qtip( opts );
       var qtipApi = qtip.api = qtip.$domEle.qtip('api'); // save api ref
       qtip.$domEle.removeData('qtip'); // remove qtip dom/api ref to be safe
@@ -204,7 +206,7 @@
       }
 
       return this; // chainability
-      
+
     });
 
   }
@@ -222,5 +224,5 @@
   if( $ && $$ ){
     register( $$, $ );
   }
-  
+
 })( jQuery, cytoscape );
