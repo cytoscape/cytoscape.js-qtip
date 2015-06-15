@@ -1,6 +1,6 @@
 {
   "name": "cytoscape-qtip",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "description": "A Cytoscape.js extension that wraps the qTip jQuery library",
   "main": "cytoscape-qtip.js",
   "spm": {
