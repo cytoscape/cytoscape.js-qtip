@@ -225,4 +225,7 @@
     register( $$, $ );
   }
 
-})( jQuery, cytoscape );
+})(
+  typeof jQuery !== 'undefined' ? jQuery : null,
+  typeof cytoscape !== 'undefined' ? cytoscape : null
+);

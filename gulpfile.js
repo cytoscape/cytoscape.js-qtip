@@ -16,7 +16,7 @@ gulp.task('default', ['publish'], function( next ){
 });
 
 gulp.task('publish', [], function( next ){
-  runSequence('confver', /*'lint',*/ 'pkgver', 'push', 'tag', 'npm', next);
+  runSequence('confver', /*'lint',*/ 'pkgver', 'push', 'tag', 'npm', 'spm', 'meteor', next);
 });
 
 gulp.task('confver', ['version'], function(){
@@ -71,6 +71,14 @@ gulp.task('tag', shell.task([
 
 gulp.task('npm', shell.task([
   'npm publish .'
+]));
+
+gulp.task('meteor', shell.task([
+  'meteor publish'
+]));
+
+gulp.task('spm', shell.task([
+  'spm publish'
 ]));
 
 // http://www.jshint.com/docs/options/
