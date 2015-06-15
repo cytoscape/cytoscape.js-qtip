@@ -3,6 +3,9 @@
   "version": "2.2.0",
   "description": "A Cytoscape.js extension that wraps the qTip jQuery library",
   "main": "cytoscape-qtip.js",
+  "spm": {
+    "main": "cytoscape-qtip.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
