@@ -11,11 +11,8 @@ Package.describe({
 });
 
 Package.onUse(function(api) {  
-  api.versionsFrom('jquery@1.11');
-  api.use('jquery');
-  
-  api.versionsFrom('maxkfranz:cytoscape@2.4.0');
-  api.use('maxkfranz:cytoscape');
+  api.use('jquery@1.11.0');
+  api.use('maxkfranz:cytoscape@2.4.0');
   
   api.addFiles([
     'cytoscape-qtip.js'
