@@ -194,17 +194,18 @@
       // so multiple qtips can exist at once (only works on recent qtip2 versions)
       opts.overwrite = false;
 
-      var content;
       if( opts.content ){
         if ( isFunction(opts.content) ){
           opts.content = wrap( opts.content, target );
         } else {
+          var contentClone = {};
           if( opts.content.text ) {
-            opts.content.text = wrap( opts.content.text, target );
+            contentClone.text = wrap( opts.content.text, target );
           }
           if( opts.content.title ) {
-            opts.content.title = wrap( opts.content.title, target );
+            contentClone.title = wrap( opts.content.title, target );
           }
+          opts.content = contentClone;
         }
       }
 
