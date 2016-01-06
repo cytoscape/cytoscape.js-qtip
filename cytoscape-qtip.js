@@ -12,6 +12,16 @@
     return o != null && typeof o === 'number';
   };
 
+  var wrap = function(obj, target) {
+    if( isFunction(obj) ) {
+      return function(event, api){
+        return obj.apply( target, [event, api] );
+      };
+    } else {
+      return obj;
+    }
+  };
+
   var throttle = function(func, wait, options) {
     var leading = true,
         trailing = true;
@@ -184,18 +194,18 @@
       // so multiple qtips can exist at once (only works on recent qtip2 versions)
       opts.overwrite = false;
 
-      var content;
       if( opts.content ){
-        if( isFunction(opts.content) ){
-          content = opts.content;
-        } else if( opts.content.text && isFunction(opts.content.text) ){
-          content = opts.content.text;
-        }
-
-        if( content ){
-          opts.content = function(event, api){
-            return content.apply( target, [event, api] );
-          };
+        if ( isFunction(opts.content) ){
+          opts.content = wrap( opts.content, target );
+        } else {
+          var contentClone = {};
+          if( opts.content.text ) {
+            contentClone.text = wrap( opts.content.text, target );
+          }
+          if( opts.content.title ) {
+            contentClone.title = wrap( opts.content.title, target );
+          }
+          opts.content = contentClone;
         }
       }
 
