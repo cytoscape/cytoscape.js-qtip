@@ -12,6 +12,10 @@
     return o != null && typeof o === 'number';
   };
 
+  var isString = function(o){
+    return o != null && typeof o === 'string';
+  };
+
   var wrap = function(obj, target) {
     if( isFunction(obj) ) {
       return function(event, api){
@@ -195,17 +199,13 @@
       opts.overwrite = false;
 
       if( opts.content ){
-        if ( isFunction(opts.content) ){
+        if ( isFunction(opts.content) || isString(opts.content) ){
           opts.content = wrap( opts.content, target );
         } else {
-          var contentClone = {};
-          if( opts.content.text ) {
-            contentClone.text = wrap( opts.content.text, target );
-          }
-          if( opts.content.title ) {
-            contentClone.title = wrap( opts.content.title, target );
-          }
-          opts.content = contentClone;
+          opts.content = {
+            text: wrap( opts.content.text, target ),
+            title: wrap( opts.content.title, target )
+          };
         }
       }
 
