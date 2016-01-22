@@ -1,6 +1,6 @@
 {
   "name": "cytoscape-qtip",
-  "version": "2.2.5",
+  "version": "2.2.6",
   "main": "cytoscape-qtip.js",
   "repository": {
     "type": "git",
