@@ -16,6 +16,10 @@
     return o != null && typeof o === 'string';
   };
 
+  var isUndef = function(o){
+    return o === undefined;
+  };
+
   var wrap = function(obj, target) {
     if( isFunction(obj) ) {
       return function(event, api){
@@ -176,14 +180,14 @@
       adjust.method = adjust.method || 'flip';
       adjust.mouse = false;
 
-      if( adjust.cyAdjustToEleBB === undefined ){
+      if( isUndef(adjust.cyAdjustToEleBB) ){
         adjust.cyAdjustToEleBB = true;
       }
 
       // default show event
       opts.show = opts.show || {};
 
-      if( !opts.show.event ){
+      if( isUndef(opts.show.event) ){
         opts.show.event = 'tap';
       }
 
@@ -191,7 +195,7 @@
       opts.hide = opts.hide || {};
       opts.hide.cyViewport = opts.hide.cyViewport === undefined ? true : opts.hide.cyViewport;
 
-      if( !opts.hide.event ){
+      if( isUndef(opts.hide.event) ){
         opts.hide.event = 'unfocus';
       }
 
