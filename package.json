@@ -21,7 +21,7 @@
     "tooltip",
     "cyext"
   ],
-  "license": "LGPL-3.0+",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/cytoscape/cytoscape.js-qtip/issues"
   },
