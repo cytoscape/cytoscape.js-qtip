@@ -12,9 +12,9 @@ A Cytoscape.js extension that wraps the [qTip jQuery library](http://qtip2.com)
 
 ## Dependencies
 
- * jQuery >= 1.10.0, as qTip requires it
- * qTip >= 2.2.0
- * Cytoscape.js >=2.2.0
+ * jQuery ^1.10.0 || ^2.0, as qTip requires it
+ * qTip ^2.2.0
+ * Cytoscape.js ^2.2.0
 
 
 ## Usage instructions
