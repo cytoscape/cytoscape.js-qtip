@@ -253,7 +253,6 @@ SOFTWARE.
         var opts = generateOpts( ele, passedOpts );
         var adjNums = opts.position.adjust;
 
-
         qtip.$domEle.qtip( opts );
         var qtipApi = qtip.api = qtip.$domEle.qtip('api'); // save api ref
         qtip.$domEle.removeData('qtip'); // remove qtip dom/api ref to be safe
@@ -297,9 +296,27 @@ SOFTWARE.
         updatePosition();
 
         ele.on( opts.show.event, function(e){
-          updatePosition(e);
+          var targetDom = $('<div></div>'),
+            cOff = container.getBoundingClientRect(),
+            bb = ele.renderedBoundingBox();
+
+          targetDom.css({
+            width: bb.w,
+            height: bb.h,
+            top: bb.y1 + cOff.top,
+            left: bb.x1 + cOff.left,
+            position: 'absolute'
+          });
+          targetDom.appendTo(document.body);
+
+          qtipApi.set('position.target', targetDom);
+          qtipApi.set('position.adjust.x', 0);
+          qtipApi.set('position.adjust.y', 0);
 
           qtipApi.show();
+
+          // Remove our temporary target DOM.
+          targetDom.remove();
         } );
 
         ele.on( opts.hide.event, function(e){
