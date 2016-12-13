@@ -177,6 +177,11 @@ SOFTWARE.
     var $qtipContainer = $('<div></div>');
     var viewportDebounceRate = 250;
 
+    $qtipContainer.css({
+      'z-index': -1,
+      'position': 'absolute'
+    });
+
     function generateOpts( target, passedOpts ){
       var qtip = target.scratch().qtip;
       var opts = $.extend( {}, passedOpts );
@@ -201,10 +206,6 @@ SOFTWARE.
       var adjust = opts.position.adjust = opts.position.adjust || {};
       adjust.method = adjust.method || 'flip';
       adjust.mouse = false;
-
-      if( isUndef(adjust.cyAdjustToEleBB) ){
-        adjust.cyAdjustToEleBB = true;
-      }
 
       // default show event
       opts.show = opts.show || {};
@@ -238,6 +239,47 @@ SOFTWARE.
       return opts;
     }
 
+    function updatePosition(ele, qtip, evt){
+      var e = evt;
+      var isCy = isFunction( ele.pan );
+      var isEle = !isCy;
+      var isNode = isEle && ele.isNode();
+      var cy = isCy ? ele : ele.cy();
+      var cOff = cy.container().getBoundingClientRect();
+      var pos = isNode ? ele.renderedPosition() : ( e ? e.cyRenderedPosition : undefined );
+      if( !pos || pos.x == null || isNaN(pos.x) ){ return; }
+
+      var bb = isNode ? ele.renderedBoundingBox({
+        includeLabels: false
+      }) : {
+        x1: pos.x - 1,
+        x2: pos.x + 1,
+        w: 3,
+        y1: pos.y - 1,
+        y2: pos.y + 1,
+        h: 3
+      };
+
+      if( qtip.$domEle.parent().length === 0 ){
+        qtip.$domEle.appendTo(document.body);
+      }
+
+      qtip.$domEle.css({
+        'width': bb.w,
+        'height': bb.h,
+        'top': bb.y1 + cOff.top + window.pageYOffset,
+        'left': bb.x1 + cOff.left + window.pageXOffset,
+        'position': 'absolute',
+        'pointer-events': 'none',
+        'background': 'red',
+        'z-index': 99999999,
+        'opacity': 0.5,
+        'visibility': 'hidden'
+      });
+
+      qtip.api.set('position.target', qtip.$domEle);
+    }
+
     $$('collection', 'qtip', function( passedOpts ){
       var eles = this;
       var cy = this.cy();
@@ -253,52 +295,14 @@ SOFTWARE.
         var opts = generateOpts( ele, passedOpts );
         var adjNums = opts.position.adjust;
 
-
         qtip.$domEle.qtip( opts );
         var qtipApi = qtip.api = qtip.$domEle.qtip('api'); // save api ref
         qtip.$domEle.removeData('qtip'); // remove qtip dom/api ref to be safe
 
-        var updatePosition = function(e){
-          var cOff = container.getBoundingClientRect();
-          var pos = ele.renderedPosition() || ( e ? e.cyRenderedPosition : undefined );
-          if( !pos || pos.x == null || isNaN(pos.x) ){ return; }
-
-          if( opts.position.adjust.cyAdjustToEleBB && ele.isNode() ){
-            var my = opts.position.my.toLowerCase();
-            var at = opts.position.at.toLowerCase();
-            var z = cy.zoom();
-            var w = ele.outerWidth() * z;
-            var h = ele.outerHeight() * z;
-
-            if( at.match('top') ){
-              pos.y -= h/2;
-            } else if( at.match('bottom') ){
-              pos.y += h/2;
-            }
-
-            if( at.match('left') ){
-              pos.x -= w/2;
-            } else if( at.match('right') ){
-              pos.x += w/2;
-            }
-
-            if( isNumber(adjNums.x) ){
-              pos.x += adjNums.x;
-            }
-
-            if( isNumber(adjNums.y) ){
-              pos.y += adjNums.y;
-            }
-          }
-
-          qtipApi.set('position.adjust.x', cOff.left + pos.x + window.pageXOffset);
-          qtipApi.set('position.adjust.y', cOff.top + pos.y + window.pageYOffset);
-        };
-        updatePosition();
+        updatePosition(ele, qtip);
 
         ele.on( opts.show.event, function(e){
-          updatePosition(e);
-
+          updatePosition(ele, qtip, e);
           qtipApi.show();
         } );
 
@@ -314,7 +318,7 @@ SOFTWARE.
 
         if( opts.position.adjust.cyViewport ){
           cy.on('pan zoom', debounce(function(e){
-            updatePosition(e);
+            updatePosition(ele, qtip, e);
 
             qtipApi.reposition();
           }, viewportDebounceRate, { trailing: true }) );
@@ -343,18 +347,9 @@ SOFTWARE.
       var qtipApi = qtip.api = qtip.$domEle.qtip('api'); // save api ref
       qtip.$domEle.removeData('qtip'); // remove qtip dom/api ref to be safe
 
-      var updatePosition = function(e){
-        var cOff = container.getBoundingClientRect();
-        var pos = e.cyRenderedPosition;
-        if( !pos || pos.x == null || isNaN(pos.x) ){ return; }
-
-        qtipApi.set('position.adjust.x', cOff.left + pos.x + window.pageXOffset);
-        qtipApi.set('position.adjust.y', cOff.top + pos.y + window.pageYOffset);
-      };
-
       cy.on( opts.show.event, function(e){
         if( !opts.show.cyBgOnly || (opts.show.cyBgOnly && e.cyTarget === cy) ){
-          updatePosition(e);
+          updatePosition(cy, qtip, e);
 
           qtipApi.show();
         }

@@ -93,8 +93,6 @@ These are additional options you can use for convenience.  Remember: This extens
 
  * `options.hide.cyViewport` : When `true`, hides qTips when the viewport is manipulated (i.e. zoom/pan).
 
- * `options.position.adjust.cyAdjustToEleBB` : When `true` (default), applies additional manual adjustments to make the positioning mechanism account for node sizes and `options.position.adjust.x` and `options.position.adjust.y` values.
-
 ## Publishing instructions
 
 1. Set the version number env var: `export VERSION=1.2.3`
