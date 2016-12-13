@@ -23,7 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "jquery": "^1.10.0 || ^2.0",
-    "qtip2": "^2.2.0",
+    "qtip2": "^2.2.0 || ^3.0",
     "cytoscape": "^2.2.0"
   }
 }
