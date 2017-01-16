@@ -250,7 +250,10 @@ SOFTWARE.
       if( !pos || pos.x == null || isNaN(pos.x) ){ return; }
 
       var bb = isNode ? ele.renderedBoundingBox({
-        includeLabels: false
+        includeNodes: true,
+        includeEdges: false,
+        includeLabels: false,
+        includeShadows: false
       }) : {
         x1: pos.x - 1,
         x2: pos.x + 1,
