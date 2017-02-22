@@ -35,9 +35,11 @@
     "jshint-stylish": "^1.0.0",
     "run-sequence": "^1.0.0"
   },
+  "dependencies": {
+    "jquery": "^2.0 || ^1.10.0",
+    "qtip2": "^3.0 || ^2.2.0"
+  },
   "peerDependencies": {
-    "jquery": "^1.10.0 || ^2.0",
-    "qtip2": "^2.2.0 || ^3.0",
     "cytoscape": "^2.2.0"
   }
 }

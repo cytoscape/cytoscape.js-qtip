@@ -12,8 +12,8 @@ A Cytoscape.js extension that wraps the [qTip jQuery library](http://qtip2.com)
 
 ## Dependencies
 
- * jQuery ^1.10.0 || ^2.0, as qTip requires it
- * qTip ^2.2.0
+ * jQuery ^2.0 || ^1.10.0, as qTip requires it
+ * qTip $3.0 || ^2.2.0
  * Cytoscape.js ^2.2.0
 
 
@@ -29,10 +29,9 @@ Download the library:
 CommonJS:
 ```js
 var cytoscape = require('cytoscape');
-var jquery = require('jquery');
 var cyqtip = require('cytoscape-qtip');
 
-cyqtip( cytoscape, jquery ); // register extension
+cyqtip( cytoscape ); // register extension
 ```
 
 AMD:
@@ -42,7 +41,7 @@ require(['cytoscape', 'cytoscape-qtip', 'jquery'], function( cytoscape, cyqtip, 
 });
 ```
 
-Note that `jquery` must point to a jQuery object with `.qtip()` registered if any sort of `require()` is used.
+Note that `jquery` must point to a jQuery object with `.qtip()` registered if AMD is used.
 
 Plain HTML/JS has the extension registered for you automatically, because no `require()` is needed.
 

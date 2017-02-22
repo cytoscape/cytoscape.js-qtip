@@ -377,7 +377,12 @@ SOFTWARE.
   }
 
   if( typeof module !== 'undefined' && module.exports ){ // expose as a commonjs module
-    module.exports = register;
+    module.exports = function( cytoscape ){
+      var jQuery = window.jQuery = window.$ = require('jquery'); // qtip requires global jquery
+      var qtip = require('qtip2');
+
+      register( cytoscape, jQuery );
+    };
   }
 
   if( typeof define !== 'undefined' && define.amd ){ // expose as an amd/requirejs module
