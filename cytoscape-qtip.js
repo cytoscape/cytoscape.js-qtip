@@ -378,10 +378,16 @@ SOFTWARE.
 
   if( typeof module !== 'undefined' && module.exports ){ // expose as a commonjs module
     module.exports = function( cytoscape ){
+      var oldJq = window.jQuery;
+      var old$ = window.$;
+
       var jQuery = window.jQuery = window.$ = require('jquery'); // qtip requires global jquery
       var qtip = require('qtip2');
 
       register( cytoscape, jQuery );
+
+      window.jQuery = oldJq;
+      window.$ = old$;
     };
   }
 

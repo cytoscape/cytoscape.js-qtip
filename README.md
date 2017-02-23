@@ -13,7 +13,7 @@ A Cytoscape.js extension that wraps the [qTip jQuery library](http://qtip2.com)
 ## Dependencies
 
  * jQuery ^2.0 || ^1.10.0, as qTip requires it
- * qTip $3.0 || ^2.2.0
+ * qTip ^3.0 || ^2.2.0
  * Cytoscape.js ^2.2.0
 
 
