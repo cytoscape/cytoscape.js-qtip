@@ -292,7 +292,11 @@ SOFTWARE.
         return this.scratch().qtip.api;
       }
 
-      eles.each(function(i, ele){
+      eles.each(function(ele, i){
+        // Perform 2.x and 1.x backwards compatibility check
+        if(isNumber(ele)){
+          ele = i;
+        }
         var scratch = ele.scratch();
         var qtip = scratch.qtip = scratch.qtip || {};
         var opts = generateOpts( ele, passedOpts );
