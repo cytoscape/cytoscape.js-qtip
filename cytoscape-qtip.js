@@ -393,9 +393,7 @@ SOFTWARE.
       window.jQuery = oldJq;
       window.$ = old$;
     };
-  }
-
-  if( typeof define !== 'undefined' && define.amd ){ // expose as an amd/requirejs module
+  } else if( typeof define !== 'undefined' && define.amd ){ // expose as an amd/requirejs module
     define('cytoscape-qtip', function(){
       return register;
     });
