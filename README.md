@@ -14,7 +14,7 @@ A Cytoscape.js extension that wraps the [qTip jQuery library](http://qtip2.com)
 
  * jQuery ^2.0 || ^1.10.0, as qTip requires it
  * qTip ^3.0 || ^2.2.0
- * Cytoscape.js ^2.2.0
+ * Cytoscape.js ^2.2.0 || ^3.0.0
 
 
 ## Usage instructions
