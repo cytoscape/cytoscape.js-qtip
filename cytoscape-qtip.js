@@ -246,7 +246,7 @@ SOFTWARE.
       var isNode = isEle && ele.isNode();
       var cy = isCy ? ele : ele.cy();
       var cOff = cy.container().getBoundingClientRect();
-      var pos = isNode ? ele.renderedPosition() : ( e ? e.cyRenderedPosition : undefined );
+      var pos = isNode ? ele.renderedPosition() : ( e ? e.renderedPosition || e.cyRenderedPosition : undefined );
       if( !pos || pos.x == null || isNaN(pos.x) ){ return; }
 
       var bb = isNode ? ele.renderedBoundingBox({
@@ -355,7 +355,7 @@ SOFTWARE.
       qtip.$domEle.removeData('qtip'); // remove qtip dom/api ref to be safe
 
       cy.on( opts.show.event, function(e){
-        if( !opts.show.cyBgOnly || (opts.show.cyBgOnly && e.cyTarget === cy) ){
+        if( !opts.show.cyBgOnly || (opts.show.cyBgOnly && (e.target === cy || e.cyTarget === cy)) ){
           updatePosition(cy, qtip, e);
 
           qtipApi.show();
@@ -363,7 +363,7 @@ SOFTWARE.
       } );
 
       cy.on( opts.hide.event, function(e){
-        if( !opts.hide.cyBgOnly || (opts.hide.cyBgOnly && e.cyTarget === cy) ){
+        if( !opts.hide.cyBgOnly || (opts.hide.cyBgOnly && (e.target === cy || e.cyTarget === cy)) ){
           qtipApi.hide();
         }
       } );
