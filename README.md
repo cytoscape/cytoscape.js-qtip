@@ -1,5 +1,6 @@
 cytoscape-qtip
 ==============
+[![DOI](https://zenodo.org/badge/6343804.svg)](https://zenodo.org/badge/latestdoi/6343804)
 
 ![Preview](https://raw.githubusercontent.com/cytoscape/cytoscape.js-qtip/master/img/preview.png)
 
@@ -96,3 +97,4 @@ These are additional options you can use for convenience.  Remember: This extens
 
 1. Set the version number env var: `export VERSION=1.2.3`
 1. Publish: `gulp`
+1. Make a release on GitHub to automatically register a new Zenodo DOI
