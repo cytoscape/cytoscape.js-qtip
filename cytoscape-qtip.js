@@ -53,7 +53,7 @@ SOFTWARE.
   };
 
   var fixDomContainer = function(ele) {
-    return ele[0] === window ? undefined : ele;
+    return ele && ( ele[0] === window ) ? undefined : ele;
   };
 
   var throttle = function(func, wait, options) {
