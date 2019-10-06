@@ -289,7 +289,7 @@ SOFTWARE.
       var container = cy.container();
 
       if( passedOpts === 'api' ){
-		var qtip = this.scratch().qtip;
+        var qtip = this.scratch().qtip;
         return qtip ? qtip.api : null;
       }
 
