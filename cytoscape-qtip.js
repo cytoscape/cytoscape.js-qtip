@@ -289,7 +289,8 @@ SOFTWARE.
       var container = cy.container();
 
       if( passedOpts === 'api' ){
-        return this.scratch().qtip.api;
+        var qtip = this.scratch().qtip;
+        return qtip ? qtip.api : null;
       }
 
       eles.each(function(ele, i){
@@ -342,7 +343,8 @@ SOFTWARE.
       var container = cy.container();
 
       if( passedOpts === 'api' ){
-        return this.scratch().qtip.api;
+        var qtip = this.scratch().qtip;
+        return qtip ? qtip.api : null;
       }
 
       var scratch = cy.scratch();
